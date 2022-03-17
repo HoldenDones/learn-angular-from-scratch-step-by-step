@@ -1,21 +1,23 @@
-MIT License
+# using Node v10
+FROM node:10
 
-Copyright (c) 2018 AngularTemplates
+# Create app directory
+WORKDIR /usr/src/lafs
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where available (npm@5+)
+COPY package*.json ./
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+RUN npm install -g @angular/cli@v6-lts 
+RUN npm install
+# If you are building your code for production
+# RUN npm ci --only=production
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+# Bundle app source
+COPY . .
+
+# Expose port 3000 outside container
+EXPOSE 4200
+# Command used to start application
+CMD ng serve --host 0.0.0.0
